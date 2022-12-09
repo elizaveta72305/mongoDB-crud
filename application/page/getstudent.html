@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" type="text/css" href="content/style.css" media="screen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+      const getStudents = async () => {
+        let endpoint = "http://localhost:3000/api/students";
+        let responce = await fetch(endpoint);
+
+        if (responce.ok) {
+          let array = await responce.json();
+          console.log(array);
+          return array;
+        } else {
+          return [];
+        }
+      };
+      const handleData = async () => {
+        let studentArray = await getStudents();
+        let html = [];
+        studentArray.map((s) => {
+          html.push(`<h1> ${s.firstName} ## ${s.lastName}</h1>`);
+        });
+        console.log(html.join(""));
+        document.getElementById("studentsContainer").innerHTML = html.join("");
+      };
+      handleData();
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        background-color: tomato;
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="studentsContainer" class="container"></div>
+  </body>
+</html>
